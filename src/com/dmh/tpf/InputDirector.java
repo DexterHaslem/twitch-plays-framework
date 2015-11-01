@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 /**
  * Created by Dexter on 10/31/2015.
  */
-public class CommandDirector {
+public class InputDirector {
     //
     private String processName;
     // live process handle (if found)
@@ -22,7 +22,7 @@ public class CommandDirector {
 
     private Kernel32 kernel32;
 
-    public CommandDirector(String processName) {
+    public InputDirector(String processName) {
         this.processName = processName;
         kernel32 = (Kernel32) Native.loadLibrary(Kernel32.class, W32APIOptions.UNICODE_OPTIONS);
     }
@@ -33,13 +33,7 @@ public class CommandDirector {
    // }
 
     public void sendVirtualKeyCode(int keyCode){
-        //final int WM_CHAR = 0x0102;
-        try {
-            User32.INSTANCE.SetForegroundWindow(hwnd);
-            Thread.sleep(100);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        User32.INSTANCE.SetForegroundWindow(hwnd);
         User32.INPUT fakeInput = new User32.INPUT();
         fakeInput.type = new WinDef.DWORD(WinUser.INPUT.INPUT_KEYBOARD);
         fakeInput.input.setType(WinUser.KEYBDINPUT.class);
@@ -85,11 +79,9 @@ public class CommandDirector {
         final User32 user32 = User32.INSTANCE;
         user32.EnumWindows((hWnd, arg1) -> {
             byte[] path = new byte[1024];
-            //user32.GetWindowModuleFileName(
 
             // lord, this doesnt work for shit
             // user32.GetWindowModuleFileName(hWnd, path, 1024);
-
 
             IntByReference pointer = new IntByReference();
             user32.GetWindowThreadProcessId(hWnd, pointer);
