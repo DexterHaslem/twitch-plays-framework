@@ -1,6 +1,7 @@
 package com.dmh.tpf;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Main {
@@ -52,24 +53,27 @@ public class Main {
             System.exit(5);
         }
 
-        chatClient.addListener(rawLine -> tryQueueMsg(ChatParser.parse(rawLine)));
+        chatClient.addListener(rawLine -> tryQueueMsg(gameCommands, ChatParser.parse(rawLine)));
         chatClient.readLoopThread();
         chatClient.sendAuth();
         chatClient.joinChannel(chatClient.getChannel()); // its like this for unit tests i promise
 
         while (chatClient.isRunning()) {
-            GameCommand[] gameCommandsFromChat;
+            List<GameCommand> cmdsFromChat;
             synchronized (queue) {
-                gameCommandsFromChat = (GameCommand[])queue.values().toArray();
+                // exception: gameCommandsFromChat = (GameCommand[])queue.values().toArray();
+                cmdsFromChat = queue.entrySet().stream().map(Map.Entry::getValue).collect(Collectors.toList());
                 queue.clear();
             }
 
-            if (gameCommandsFromChat.length > 1) {
-                int mostPopularKey = getMostPopularKey(gameCommandsFromChat);
+            int count = cmdsFromChat.size();
+
+            if (count > 1) {
+                int mostPopularKey = getMostPopularKey(cmdsFromChat);
                 inputDirector.sendKey(mostPopularKey);
             }
-            else if (gameCommandsFromChat.length == 1) {
-                inputDirector.sendKey(gameCommandsFromChat[0].getKeycode());
+            else if (count == 1) {
+                inputDirector.sendKey(cmdsFromChat.get(0).getKeycode());
             }
 
             try {
@@ -83,7 +87,7 @@ public class Main {
         System.out.println("tpf: done");
     }
 
-    private static int getMostPopularKey(GameCommand[] fromChat) {
+    private static int getMostPopularKey(List<GameCommand> fromChat) {
         // this is kinda dumb. probably easier if i implemented equality
         // hash key is.. keycode, so we dont have to go dig it up later
         HashMap<Integer, Integer> tally = new HashMap<>();
@@ -100,6 +104,36 @@ public class Main {
         return (int)sorted.toArray()[0];
     }
 
-    private static void tryQueueMsg(IrcMessage ircMsg) {
+    private static void tryQueueMsg(List<GameCommand> commands, IrcMessage ircMsg) {
+        // filter any irrelevant stuff
+        if (ircMsg == null || ircMsg.getType() != MessageType.Privmsg)
+            return;
+
+        // suppose this could be possible, ignore any msgs not to the channel (if someone PMs bot)
+        //if (ircMsg.getPrivmsgChannel()
+
+        // throw out stuff that cant be a command
+        // HACK: assume commands are one character for now
+        String msg = ircMsg.getPrivmsgMessage();
+        if (msg == null || msg.length() != 1)
+            return;
+
+        // now scan our loaded game commands
+        GameCommand found = null;
+        for (GameCommand gc : commands) {
+            String commandChat = gc.getChatString();
+            if (commandChat == null || !commandChat.equalsIgnoreCase(msg))
+                continue;
+            found = gc;
+            break;
+        }
+
+        if (found == null)
+            return;
+
+        String nick = ircMsg.getShortNick();
+        synchronized (queue) {
+            queue.put(nick, found);
+        }
     }
 }
