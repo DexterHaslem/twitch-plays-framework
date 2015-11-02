@@ -9,8 +9,9 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Config {
-    public static final String GAME_EXE_CFG = "game.txt";
-    public static final String COMMAND_CFG  = "commands.txt";
+    public static final String GAME_EXE_CFG = "config/game.txt";
+    public static final String COMMAND_CFG  = "config/commands.txt";
+    public static final String CHAT_CFG  = "config/chat.txt";
 
     public static String getGameExecutableName() {
         Path gamePath = Paths.get(GAME_EXE_CFG);
