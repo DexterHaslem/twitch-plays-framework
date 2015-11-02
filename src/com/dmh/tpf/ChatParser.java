@@ -46,9 +46,11 @@ public class ChatParser {
         if (raw.charAt(0) == '@')
             raw = raw.substring(raw.indexOf(' ') + 1);
 
+        boolean hasPrefix = raw.charAt(0) == ':';
+
         String[] msgChunks = raw.split(" ");
 
-        // we need at least a prefix and command
+        // we need at least prefix + command, or command + arg (eg, PING :arg, NOTICE *, etc)
         if (msgChunks.length < 2)
             return null;
 
@@ -63,13 +65,22 @@ public class ChatParser {
         //    raw = raw.substring(extendedCrap.length() + 1); // add one to skip the space
         //}
 
-        String prefix = removeLeadingColon(msgChunks[0]);
+        String prefix;
+        String command;
 
-        String command = msgChunks[1];
+        if (hasPrefix) {
+            prefix = removeLeadingColon(msgChunks[0]);
+            command = msgChunks[1];
+        }
+        else {
+            prefix = "";
+            command = msgChunks[0];
+        }
         MessageType msgType = getMessageType(command);
 
         String params;
-        int paramStart = prefix.length() + command.length() + 2;
+        int paramStart = prefix.length() + command.length() + (hasPrefix ? 2 : 1);
+
         if (paramStart >= raw.length())
             params = "";
         else

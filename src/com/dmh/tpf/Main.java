@@ -53,7 +53,16 @@ public class Main {
             System.exit(5);
         }
 
-        chatClient.addListener(rawLine -> tryQueueMsg(gameCommands, ChatParser.parse(rawLine)));
+        chatClient.addListener(rawLine -> {
+            // the one liner was cute, but forgot to handle pongs
+            IrcMessage msg = ChatParser.parse(rawLine);
+            if (msg != null && msg.getType() == MessageType.Ping) {
+                String arg = msg.getParameters();
+                chatClient.sendLine("PONG " + arg);
+            }
+            else
+                tryQueueMsg(gameCommands, msg);
+        });
         chatClient.readLoopThread();
         chatClient.sendAuth();
         chatClient.joinChannel(chatClient.getChannel()); // its like this for unit tests i promise
@@ -67,15 +76,15 @@ public class Main {
             }
 
             int count = cmdsFromChat.size();
-
-            if (count > 1) {
+            if (count > 0) {
+                //if (count > 1) {
                 int mostPopularKey = getMostPopularKey(cmdsFromChat);
                 inputDirector.sendKey(mostPopularKey);
+                //}
+                //else if (count == 1) {
+                //    inputDirector.sendKey(cmdsFromChat.get(0).getKeycode());
+                //}
             }
-            else if (count == 1) {
-                inputDirector.sendKey(cmdsFromChat.get(0).getKeycode());
-            }
-
             try {
                 Thread.sleep(QUEUE_RATE_MS);
             } catch (InterruptedException e) {
@@ -101,7 +110,8 @@ public class Main {
         Stream<Map.Entry<Integer, Integer>> sorted = tally.entrySet().stream()
                 .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()));
 
-        return (int)sorted.toArray()[0];
+        // lol
+        return sorted.findFirst().get().getKey();
     }
 
     private static void tryQueueMsg(List<GameCommand> commands, IrcMessage ircMsg) {

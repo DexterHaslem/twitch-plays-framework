@@ -121,8 +121,9 @@ public class ChatClient {
 
     public void readLoopThread() {
         synchronized (syncContext) {
-            if (readThread != null && readThread.isAlive())
-                isRunning = false;
+            // arg nasty race
+            //if (readThread != null && readThread.isAlive())
+            //    isRunning = false;
 
             readThread = new Thread(() -> {
                 // dont forget to introduce a race condition so the project isnt too easy

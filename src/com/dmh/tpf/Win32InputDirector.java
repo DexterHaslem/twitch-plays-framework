@@ -24,9 +24,6 @@ public class Win32InputDirector extends InputDirector {
         if (handle == null)
             return false;
 
-        // this is required, trying to fake by sending WM_KEYDOWN msgs etc doesnt work for shit
-        User32.INSTANCE.SetForegroundWindow(handle);
-
         User32.INPUT fakeInput          = new User32.INPUT();
         fakeInput.type                  = new WinDef.DWORD(WinUser.INPUT.INPUT_KEYBOARD);
         fakeInput.input.ki.wScan        = new WinDef.WORD(0);
@@ -38,15 +35,51 @@ public class Win32InputDirector extends InputDirector {
 
         WinUser.INPUT[] inputs = {fakeInput};
         int cbSize = fakeInput.size();
-        // keydown is default
-        WinDef.DWORD result = User32.INSTANCE.SendInput(new WinDef.DWORD(1), inputs, cbSize);
+        WinDef.DWORD result;
+        WinDef.DWORD dwOne = new WinDef.DWORD(1);
 
+        // this is required, trying to fake by sending WM_KEYDOWN msgs etc doesnt work for shit
+        // damn gross win8 thing. if it already has focus and you call this, it LOSES input focus while flashing
+        WinDef.HWND foregroundHwnd = User32.INSTANCE.GetForegroundWindow();
+        if (foregroundHwnd.getPointer() != handle.getPointer()) {
+            // bizzare workaround: send ALT first
+            //fakeInput.input.ki.wVk          = new WinDef.WORD(0x12);
+            // keydown is default
+            //result = User32.INSTANCE.SendInput(dwOne, inputs, cbSize);
+
+            //try {
+            //    Thread.sleep(50);
+            //} catch (InterruptedException e) {
+
+
+            //fakeInput.input.ki.dwFlags = new WinDef.DWORD(WinUser.KEYBDINPUT.KEYEVENTF_KEYUP);
+            //result = User32.INSTANCE.SendInput(dwOne, inputs, cbSize);
+
+            //fakeInput.input.ki.wVk          = new WinDef.WORD(keyCode);
+
+            // this has serious limitations: https://msdn.microsoft.com/en-us/library/windows/desktop/ms633539(v=vs.85).aspx
+            // basically, need to start process ourselves to be able to do this. may switch to fullpath and do so
+            User32.INSTANCE.SetForegroundWindow(handle);
+            //User32.INSTANCE.SetFocus(handle);
+            try {
+                Thread.sleep(125);
+            } catch (InterruptedException e) {
+            }
+        }
+
+
+        result = User32.INSTANCE.SendInput(dwOne, inputs, cbSize);
         if (result.intValue() != 1)
             return false;
 
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+        }
+
         // send key up right after simulating tapping an input
         fakeInput.input.ki.dwFlags = new WinDef.DWORD(WinUser.KEYBDINPUT.KEYEVENTF_KEYUP);
-        result = User32.INSTANCE.SendInput(new WinDef.DWORD(1), inputs, cbSize);
+        result = User32.INSTANCE.SendInput(dwOne, inputs, cbSize);
         return result.intValue() == 1;
     }
 
