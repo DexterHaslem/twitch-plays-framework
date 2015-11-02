@@ -1,12 +1,9 @@
 package com.dmh.tpf;
 
-/**
- * Created by Dexter on 10/31/2015.
- */
 public class GameCommand {
-    private int     keycode; // w32 keycode
+    private int     keycode;    // w32 keycode
     private String  chatString;
-    private float   queueRate; // in seconds
+    private float   queueRate;  // in seconds
 
     public GameCommand() {
         queueRate = 1f;
@@ -36,7 +33,6 @@ public class GameCommand {
     public void setChatString(String chatString) {
         this.chatString = chatString;
     }
-
 
 
     @Override

@@ -1,7 +1,6 @@
 package com.dmh.tpf;
 
 public class Main {
-
     public static void main(String[] args) {
         InputDirector cd = new InputDirector("notepad.exe");
         if (cd.findRunningHandle()) {

@@ -8,14 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by Dexter on 10/31/2015.
- */
 public class Config {
     public static final String GAME_EXE_CFG = "game.txt";
-    public static final String COMMAND_CFG = "commands.txt";
+    public static final String COMMAND_CFG  = "commands.txt";
 
-    public String getGameExecutableName() {
+    public static String getGameExecutableName() {
         Path gamePath = Paths.get(GAME_EXE_CFG);
         if (!Files.exists(gamePath))
             return null;
@@ -31,7 +28,7 @@ public class Config {
         }
     }
 
-    public List<GameCommand> getCommands() {
+    public static List<GameCommand> getCommands() {
         Path cmdPath = Paths.get(COMMAND_CFG);
         if (!Files.exists(cmdPath))
             return null;
@@ -40,7 +37,6 @@ public class Config {
         try {
             // fromString does not return null
             ret.addAll(Files.readAllLines(cmdPath).stream().map(GameCommand::fromString).collect(Collectors.toList()));
-
         } catch (IOException ex) {
             return null;
         }
