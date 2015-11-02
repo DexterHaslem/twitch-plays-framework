@@ -18,7 +18,7 @@ public class ChatClient {
 
     // net state
     // why bother having any writer at all if we're just listening to chat?
-    // we still need to respond to irc PINGs with PONG to not be disconnected
+    // we still need to respond to irc PINGs with PONG to not be disconnected, and register
     private Socket              socket;
     private InputStreamReader   socketReader;
     private OutputStreamWriter  socketWriter;
