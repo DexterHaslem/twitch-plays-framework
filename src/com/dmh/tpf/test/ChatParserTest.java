@@ -26,5 +26,13 @@ public class ChatParserTest {
         assertEquals(msg.getType(), MessageType.Privmsg);
         assertEquals(msg.getPrivmsgMessage(), "butt farts asdfadsf");
         assertEquals(msg.getPrivmsgChannel(), "#channel");
+
+        // IRCv3 test (ignoring it)
+        testPrivMsg = "@color=#0D4200;display-name=TWITCH_UserNaME;emotes=25:0-4,12-16/1902:6-10;subscriber=0;turbo=1;user-type=global_mod :foo!user@host PRIVMSG #channel :butt farts asdfadsf";
+        msg = ChatParser.parse(testPrivMsg);
+
+        assertEquals(msg.getType(), MessageType.Privmsg);
+        assertEquals(msg.getPrivmsgMessage(), "butt farts asdfadsf");
+        assertEquals(msg.getPrivmsgChannel(), "#channel");
     }
 }
