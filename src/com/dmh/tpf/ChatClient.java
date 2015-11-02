@@ -28,6 +28,12 @@ public class ChatClient {
 
     private List<ChatLineListener> listeners = new ArrayList<>();
 
+    public boolean isRunning() {
+        synchronized (syncContext) {
+            return isRunning;
+        }
+    }
+
     public boolean connect() {
         try {
             socket = new Socket(server, port);
@@ -112,7 +118,7 @@ public class ChatClient {
                     isRunning = true;
                 }
 
-                while (isRunning) {
+                do {
                     try {
                         String freshLine = bufferedReader.readLine();
                         if (!freshLine.isEmpty())
@@ -124,8 +130,9 @@ public class ChatClient {
                             return;
                         }
                     }
-                }
+                } while (isRunning); // no lock here is intentional
 
+                // fallthrough
                 synchronized (syncContext) {
                     isRunning = false;
                 }
