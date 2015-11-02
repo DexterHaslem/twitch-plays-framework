@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="c4eecab7-ae9f-4b83-9f72-18ca447d2c00" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/src/com/dmh/tpf/Win32InputDirector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dmh/tpf/GameCommand.java" afterPath="$PROJECT_DIR$/src/com/dmh/tpf/GameCommand.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dmh/tpf/InputDirector.java" afterPath="$PROJECT_DIR$/src/com/dmh/tpf/InputDirector.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/dmh/tpf/Main.java" afterPath="$PROJECT_DIR$/src/com/dmh/tpf/Main.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="tpf.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,25 +59,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="InputDirector.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="InputDirector.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/dmh/tpf/InputDirector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.0">
-              <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.06677797">
+              <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
               <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#555#556#0" expanded="true" />
-                <element signature="e#601#602#0" expanded="true" />
+                <element signature="e#308#309#0" expanded="true" />
+                <element signature="e#354#355#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Win32InputDirector.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Win32InputDirector.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/dmh/tpf/Win32InputDirector.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6327212">
-              <caret line="52" column="58" selection-start-line="52" selection-start-column="58" selection-end-line="52" selection-end-column="58" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -518,9 +513,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#555#556#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
+            <element signature="e#308#309#0" expanded="true" />
+            <element signature="e#354#355#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -559,9 +553,8 @@
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#555#556#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
+            <element signature="e#308#309#0" expanded="true" />
+            <element signature="e#354#355#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -651,18 +644,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/dmh/tpf/InputDirector.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#555#556#0" expanded="true" />
-            <element signature="e#601#602#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dmh/tpf/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -684,10 +665,21 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/dmh/tpf/Win32InputDirector.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6327212">
-          <caret line="52" column="58" selection-start-line="52" selection-start-column="58" selection-end-line="52" selection-end-column="58" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="39" column="28" selection-start-line="39" selection-start-column="28" selection-end-line="39" selection-end-column="28" />
           <folding>
             <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/dmh/tpf/InputDirector.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.06677797">
+          <caret line="2" column="0" selection-start-line="2" selection-start-column="0" selection-end-line="2" selection-end-column="0" />
+          <folding>
+            <element signature="e#308#309#0" expanded="true" />
+            <element signature="e#354#355#0" expanded="true" />
           </folding>
         </state>
       </provider>
