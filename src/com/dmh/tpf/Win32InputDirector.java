@@ -5,6 +5,7 @@ import com.sun.jna.platform.win32.*;
 import com.sun.jna.ptr.IntByReference;
 import com.sun.jna.win32.W32APIOptions;
 
+import java.nio.file.InvalidPathException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -66,12 +67,22 @@ public class Win32InputDirector extends InputDirector {
 
             String pathStr = Native.toString(pathBytes);
             // its a full path, blah convert to just filename
-            Path procPath = Paths.get(pathStr);
-            String fileName = procPath.getFileName().toString();
+            //System.out.printf("Trying to create path '%s'\n", pathStr);
+            // finally figured out what is blowing up. for some reason GetModuleFileNameExA() returns
+            // "?" as a path for something. maybe a failed wide conversion or something
+            try {
+                if (pathStr.length() < 2)
+                    return true;
 
-            if (fileName.equalsIgnoreCase(processName)) {
-                this.handle = hWnd;
-                return false;
+                Path procPath = Paths.get(pathStr);
+                String fileName = procPath.getFileName().toString();
+
+                if (fileName.equalsIgnoreCase(processName)) {
+                    this.handle = hWnd;
+                    return false;
+                }
+            } catch (InvalidPathException ex) {
+                return true;
             }
 
             // keep searching
