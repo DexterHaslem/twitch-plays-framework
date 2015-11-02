@@ -49,9 +49,17 @@ public class ChatClient {
         }
     }
 
+    public boolean sendAuth() {
+        if (!socket.isClosed())
+            return false;
+        sendLine("PASS " + oauthToken);
+        sendLine("NICK " + nick);
+        return true;
+    }
+
     public boolean disconnect() {
         isRunning = false;
-        if (socket == null || !socket.isConnected())
+        if (socket == null || !socket.isClosed())
             return true;
         try {
             socket.close();
@@ -74,7 +82,7 @@ public class ChatClient {
 
     // dont append \r\n this will handle it
     public void sendLine(String line) {
-        if (socket == null || !socket.isConnected())
+        if (socket == null || !socket.isClosed())
             return;
 
         try {
@@ -83,6 +91,10 @@ public class ChatClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void joinChannel(String channelName) {
+        sendLine("JOIN " + channelName);
     }
 
     // for this I just went with an observer pattern instead of a full blown java event.
@@ -120,7 +132,16 @@ public class ChatClient {
 
                 do {
                     try {
+
                         String freshLine = bufferedReader.readLine();
+                        // on graceful disconnect readLine returns null
+                        if (freshLine == null) {
+                            synchronized (syncContext) {
+                                isRunning = false;
+                                return;
+                            }
+                        }
+
                         if (!freshLine.isEmpty())
                             notifyListeners(freshLine);
                     } catch (IOException e) {
@@ -138,7 +159,9 @@ public class ChatClient {
                 }
             });
 
-            readThread.run();
+            // oops that was syncronous
+            // readThread.run();
+            readThread.start();
         }
     }
 
