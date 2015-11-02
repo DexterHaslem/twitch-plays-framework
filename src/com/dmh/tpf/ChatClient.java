@@ -171,4 +171,8 @@ public class ChatClient {
             isRunning = false;
         }
     }
+
+    public String getChannel() {
+        return channel;
+    }
 }

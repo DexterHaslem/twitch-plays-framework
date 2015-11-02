@@ -3,26 +3,26 @@ package com.dmh.tpf;
 public class GameCommand {
     private int     keycode;    // w32 keycode
     private String  chatString;
-    private float   queueRate;  // in seconds
+    //private float   queueRate;  // in seconds
 
     public GameCommand() {
-        queueRate = 1f;
+        //queueRate = 1f;
         chatString = "";
     }
 
-    public GameCommand(String chatStr, int keycode, float queueRate) {
+    public GameCommand(String chatStr, int keycode/*, float queueRate*/) {
         this.chatString = chatStr;
         this.keycode = keycode;
-        this.queueRate = queueRate;
+        //this.queueRate = queueRate;
     }
 
-    public float getQueueRate() {
-        return queueRate;
-    }
-
-    public void setQueueRate(float queueRate) {
-        this.queueRate = queueRate;
-    }
+//    public float getQueueRate() {
+//        return queueRate;
+//    }
+//
+//    public void setQueueRate(float queueRate) {
+//        this.queueRate = queueRate;
+//    }
 
     public int getKeycode() {
         return keycode;
@@ -42,7 +42,7 @@ public class GameCommand {
 
     @Override
     public String toString() {
-        return String.format("%s,%d,%.2f", chatString, keycode, queueRate);
+        return String.format("%s,%d"/*,%.2f"*/, chatString, keycode);//, queueRate);
     }
 
     public static GameCommand fromString(String str) {
@@ -51,22 +51,22 @@ public class GameCommand {
             return ret;
 
         String[] chunks = str.split(",");
-        if (chunks.length != 3)
+        if (chunks.length != 2)// 3)
             return ret;
 
-        ret.chatString = chunks[0];
+        ret.chatString = chunks[0].trim();
         
         try {
-           ret.keycode = Integer.parseInt(chunks[1]);
+           ret.keycode = Integer.parseInt(chunks[1].trim());
         } catch (NumberFormatException ex) {
             // log me
         }
 
-        try {
-            ret.queueRate = Float.parseFloat(chunks[2]);
-        } catch (NumberFormatException ex) {
-            // log me
-        }
+//        try {
+//            ret.queueRate = Float.parseFloat(chunks[2]);
+//        } catch (NumberFormatException ex) {
+//            // log me
+//        }
         return ret;
     }
 }
