@@ -10,6 +10,12 @@ public class GameCommand {
         chatString = "";
     }
 
+    public GameCommand(String chatStr, int keycode, float queueRate) {
+        this.chatString = chatStr;
+        this.keycode = keycode;
+        this.queueRate = queueRate;
+    }
+
     public float getQueueRate() {
         return queueRate;
     }
@@ -33,7 +39,6 @@ public class GameCommand {
     public void setChatString(String chatString) {
         this.chatString = chatString;
     }
-
 
     @Override
     public String toString() {
