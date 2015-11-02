@@ -50,7 +50,7 @@ public class ChatClient {
     }
 
     public boolean sendAuth() {
-        if (!socket.isClosed())
+        if (socket.isClosed())
             return false;
         sendLine("PASS " + oauthToken);
         sendLine("NICK " + nick);
@@ -59,7 +59,7 @@ public class ChatClient {
 
     public boolean disconnect() {
         isRunning = false;
-        if (socket == null || !socket.isClosed())
+        if (socket == null || socket.isClosed())
             return true;
         try {
             socket.close();
@@ -82,7 +82,7 @@ public class ChatClient {
 
     // dont append \r\n this will handle it
     public void sendLine(String line) {
-        if (socket == null || !socket.isClosed())
+        if (socket == null || socket.isClosed())
             return;
 
         try {
