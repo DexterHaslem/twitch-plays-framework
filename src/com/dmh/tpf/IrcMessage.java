@@ -42,6 +42,12 @@ public class IrcMessage {
         return source;
     }
 
+    public String getShortNick() {
+        if (source == null || source.isEmpty())
+            return null;
+        String[] chunks = source.split("!");
+        return chunks.length > 0 ? chunks[0] : null;
+    }
     public String getCommand() {
         return command;
     }

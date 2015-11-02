@@ -29,6 +29,26 @@ public class Config {
         }
     }
 
+    //note: cba to create a class, returns nick,oauth,chan
+    public static String[] getChatConfig() {
+        Path chatPath = Paths.get(CHAT_CFG);
+        if (!Files.exists(chatPath))
+            return null;
+        try {
+            List<String> lines = Files.readAllLines(chatPath);
+
+            if (lines.isEmpty())
+                return null;
+
+            String firstLine = lines.get(0).trim();
+            // format is "nick oauth chan" thats it
+            String[] chunks = firstLine.split(" ");
+            return chunks.length != 3 ? null : chunks;
+        } catch (IOException ex) {
+            return null;
+        }
+    }
+
     public static List<GameCommand> getCommands() {
         Path cmdPath = Paths.get(COMMAND_CFG);
         if (!Files.exists(cmdPath))
