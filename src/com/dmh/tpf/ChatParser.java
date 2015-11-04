@@ -1,9 +1,25 @@
+/*
+twitch-plays-framework Copyright 2015 Dexter Haslem <dexter.haslem@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package com.dmh.tpf;
 
 import java.util.Arrays;
 
 /* this chat parser is very simplistic by design.
-it only needs to care about two things
+it only needs to care about a few things
 1) irc PING requests. need these to send a PONG back and not get disconnected
 2) PRIVMSG msgs. this is where we will read our commands from. ideally the client will only be on one channel.
     even so the following are read:

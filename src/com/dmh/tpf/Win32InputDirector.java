@@ -1,3 +1,19 @@
+/*
+twitch-plays-framework Copyright 2015 Dexter Haslem <dexter.haslem@gmail.com>
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
+
 package com.dmh.tpf;
 
 import com.sun.jna.Native;
@@ -40,6 +56,7 @@ public class Win32InputDirector extends InputDirector {
 
         // this is required, trying to fake by sending WM_KEYDOWN msgs etc doesnt work for shit
         // damn gross win8 thing. if it already has focus and you call this, it LOSES input focus while flashing
+        // also see MSDN coverage of GetForegroundWindow(), it protects focus stealing 
         WinDef.HWND foregroundHwnd = User32.INSTANCE.GetForegroundWindow();
         // HACK HACK: silently ignore if not focused
         if (foregroundHwnd.getPointer() != handle.getPointer())
